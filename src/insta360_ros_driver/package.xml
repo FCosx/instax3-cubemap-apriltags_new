@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>insta360_ros_driver</name>
+  <version>1.0.0</version>
+  <description>ROS 2 X3 camera driver wrapper; the vendor SDK is external.</description>
+
+  <maintainer email="maintainer@example.com">X3 Cubemap Pipeline Maintainers</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>rclcpp</depend>
+  <depend>sensor_msgs</depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

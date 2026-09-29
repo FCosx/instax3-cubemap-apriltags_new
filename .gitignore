@@ -1,0 +1,22 @@
+build/
+install/
+log/
+__pycache__/
+*.pyc
+*.db3
+*.db3-*
+*.db3.zstd
+*.mcap
+*.mcap.zstd
+*.bag
+*.insv
+*.lrv
+*.mp4
+*.mov
+metadata.yaml
+*.camera.log
+*_detections.csv
+.venv/
+# External vendor SDK files are intentionally not part of this repository.
+src/insta360_ros_driver/include/
+src/insta360_ros_driver/lib/
