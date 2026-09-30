@@ -47,6 +47,13 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+if [[ -n "${X3_CUBEMAP_IMAGE_ENCODING:-}" ]]; then
+  [[ "$X3_CUBEMAP_IMAGE_ENCODING" == bgr8 ||
+     "$X3_CUBEMAP_IMAGE_ENCODING" == mono8 ]] ||
+    die "X3_CUBEMAP_IMAGE_ENCODING must be bgr8 or mono8"
+  LAUNCH_ARGS+=("cubemap_image_encoding:=$X3_CUBEMAP_IMAGE_ENCODING")
+fi
+
 [[ -r "$ROS_SETUP" ]] || die "ROS 2 setup not found: $ROS_SETUP"
 [[ -r "$DRIVER_SETUP" && -r "$PIPELINE_SETUP" ]] || die "workspace is not built; run ./build.sh first"
 if [[ -z "$SDK_DIR" ]]; then

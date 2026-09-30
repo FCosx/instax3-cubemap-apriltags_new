@@ -24,6 +24,7 @@ def generate_launch_description():
     hardware_decoder = LaunchConfiguration('hardware_decoder')
     cubemap_face_size = LaunchConfiguration('cubemap_face_size')
     cubemap_max_fps = LaunchConfiguration('cubemap_max_fps')
+    cubemap_image_encoding = LaunchConfiguration('cubemap_image_encoding')
     cubemap_gui = LaunchConfiguration('cubemap_gui')
     white_balance = LaunchConfiguration('white_balance_kelvin')
 
@@ -70,6 +71,7 @@ def generate_launch_description():
             '--topic', equirect_compressed_topic,
             '--face-size', cubemap_face_size,
             '--max-fps', cubemap_max_fps,
+            '--image-encoding', cubemap_image_encoding,
             '--gui', cubemap_gui,
         ],
     )
@@ -90,6 +92,7 @@ def generate_launch_description():
         DeclareLaunchArgument('hardware_decoder', default_value='false'),
         DeclareLaunchArgument('cubemap_face_size', default_value='360'),
         DeclareLaunchArgument('cubemap_max_fps', default_value='10'),
+        DeclareLaunchArgument('cubemap_image_encoding', default_value='bgr8'),
         DeclareLaunchArgument('cubemap_gui', default_value='false'),
         DeclareLaunchArgument('white_balance_kelvin', default_value='5000'),
         driver,

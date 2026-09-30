@@ -13,6 +13,8 @@ existing bag.
 
 ![Four-view AprilTag detection and TF in RViz](docs/media/x3-four-view-demo.gif)
 
+![Four mono8 cubemap views with AprilTag detections and TF in RViz](docs/media/x3-four-view-mono8-redacted.png)
+
 ## Requirements and one-command setup
 
 - Ubuntu 24.04 with ROS 2 Jazzy installed.
@@ -59,6 +61,32 @@ The bag contains H.264 dual fisheye data, a JPEG panorama, four raw cubemap
 faces with matching `CameraInfo`, a JPEG mosaic, and IMU data. It contains
 `metadata.yaml` and a `.db3` file. Detector results are written separately
 to four `*_detections.csv` files next to the bag.
+
+### Record smaller grayscale cubemap images
+
+After updating the checkout, rebuild once with `./setup_x3.sh`. To record the
+same four faces, detectors, TF, and RViz view with `mono8` camera images, use:
+
+```bash
+./start_x3_four_mono8_rviz.sh record "$HOME/Videos/x3_tests/example_take_mono8" 0.06
+```
+
+The four `/cubemap/<face>/image` topics keep their 360 × 360 resolution and
+`CameraInfo`. Their raw image payload changes from three bytes per pixel
+(`bgr8`) to one (`mono8`) before ROS publishes and records it. The SQLite bag
+still has a `.db3` file; the already compressed panorama, fisheye, and mosaic
+topics are unchanged. Live AprilTag detection and the annotated RViz view run
+as in the color workflow. Color is discarded from the four face images.
+
+During recording, verify one face in another terminal:
+
+```bash
+source /opt/ros/jazzy/setup.bash
+ros2 topic echo /cubemap/front/image --once --field encoding
+```
+
+It should print `mono8`. Use a new bag path for each take. To replay a mono8
+bag, use the usual replay command below with that bag path.
 
 ## Replay with four detectors and RViz
 

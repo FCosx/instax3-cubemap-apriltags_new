@@ -33,13 +33,17 @@ FACE_SOURCE_NAMES = {
 
 
 class RosCubemapView(Node):
-    def __init__(self, topic: str, face_size: int, show: bool, max_fps: int) -> None:
+    def __init__(
+        self, topic: str, face_size: int, show: bool, max_fps: int,
+        image_encoding: str,
+    ) -> None:
         super().__init__('da360_cubemap')
         # Four small remaps are faster and more predictable with one worker;
         # this also leaves CPU headroom for DA360 post-processing.
         cv2.setNumThreads(1)
         self.bridge = CvBridge()
         self.face_size = face_size
+        self.image_encoding = image_encoding
         self.show = show
         self.max_fps = max(0, int(max_fps))
         self._min_interval = 1.0 / self.max_fps if self.max_fps else 0.0
@@ -77,7 +81,8 @@ class RosCubemapView(Node):
         )
         self.get_logger().info(
             f'Listening on {topic}; publishing four {face_size}x{face_size} '
-            f'cubemap faces; gui={show}; max_fps={self.max_fps or "unlimited"}'
+            f'cubemap faces; encoding={image_encoding}; gui={show}; '
+            f'max_fps={self.max_fps or "unlimited"}'
         )
 
     def image_callback(self, message: Image | CompressedImage) -> None:
@@ -133,7 +138,13 @@ class RosCubemapView(Node):
             faces[name] = face
 
             if face_subscribers[name]:
-                output = self.bridge.cv2_to_imgmsg(face, encoding='bgr8')
+                image = (
+                    cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
+                    if self.image_encoding == 'mono8' else face
+                )
+                output = self.bridge.cv2_to_imgmsg(
+                    image, encoding=self.image_encoding,
+                )
                 output.header = message.header
                 output.header.frame_id = f'cubemap_{name}'
                 info = CameraInfo()
@@ -211,6 +222,7 @@ def main() -> None:
     parser.add_argument('--topic', default='/equirectangular/image')
     parser.add_argument('--face-size', type=int, default=360)
     parser.add_argument('--max-fps', type=int, default=15)
+    parser.add_argument('--image-encoding', choices=('bgr8', 'mono8'), default='bgr8')
     parser.add_argument('--gui', choices=('true', 'false'), default='true')
     parser.add_argument('--no-gui', action='store_true')
     args = parser.parse_args(remove_ros_args()[1:])
@@ -221,7 +233,9 @@ def main() -> None:
 
     show = args.gui == 'true' and not args.no_gui
     rclpy.init()
-    node = RosCubemapView(args.topic, args.face_size, show, args.max_fps)
+    node = RosCubemapView(
+        args.topic, args.face_size, show, args.max_fps, args.image_encoding,
+    )
     try:
         rclpy.spin(node)
     except (KeyboardInterrupt, ExternalShutdownException):

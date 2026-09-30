@@ -53,6 +53,7 @@ open_terminal() {
   shift
   gnome-terminal --wait --window --title="$title" -- \
     env X3_FOUR_DOMAIN_ID="$domain" X3_FOUR_MODE="$mode" \
+    X3_CUBEMAP_IMAGE_ENCODING="${X3_CUBEMAP_IMAGE_ENCODING:-}" \
     "$root/x3_four_terminal.sh" "$@" &
   terminal_pids+=("$!")
   sleep 0.4
