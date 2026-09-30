@@ -9,6 +9,10 @@ The proprietary Insta360 CameraSDK and recordings are kept outside this
 repository. No camera data is needed to build the project or replay an
 existing bag.
 
+## Demo
+
+![Four-view AprilTag detection and TF in RViz](docs/media/x3-four-view-demo.gif)
+
 ## Requirements and one-command setup
 
 - Ubuntu 24.04 with ROS 2 Jazzy installed.
