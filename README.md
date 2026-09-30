@@ -11,7 +11,24 @@ existing bag.
 
 ## Demo
 
+### Four-view AprilTag detection
+
+The animation shows the front, right, back, and left cubemap views in a 2 × 2
+layout. Green boxes and labels mark detected `36h11` tags in the camera images.
+The RViz pane on the right shows the corresponding named TF axes, including
+the camera face in each tag frame name so simultaneous observations are
+distinguishable.
+
 ![Four-view AprilTag detection and TF in RViz](docs/media/x3-four-view-demo.gif)
+
+### Mono8 recording and detection
+
+This screenshot shows the same four-view workflow with the camera faces
+published as grayscale `mono8` images. The AprilTag boxes and labels remain
+colored overlays, and RViz still shows the detected tag TF axes. This mode
+keeps the 360 × 360 face resolution while reducing each raw face image from
+three bytes per pixel to one. Background personal text was removed from the
+published screenshot.
 
 ![Four mono8 cubemap views with AprilTag detections and TF in RViz](docs/media/x3-four-view-mono8-redacted.png)
 
