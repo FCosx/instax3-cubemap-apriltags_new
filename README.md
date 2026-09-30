@@ -27,8 +27,7 @@ This screenshot shows the same four-view workflow with the camera faces
 published as grayscale `mono8` images. The AprilTag boxes and labels remain
 colored overlays, and RViz still shows the detected tag TF axes. This mode
 keeps the 360 × 360 face resolution while reducing each raw face image from
-three bytes per pixel to one. Background personal text was removed from the
-published screenshot.
+three bytes per pixel to one.
 
 ![Four mono8 cubemap views with AprilTag detections and TF in RViz](docs/media/x3-four-view-mono8-redacted.png)
 
